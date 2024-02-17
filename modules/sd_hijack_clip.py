@@ -246,7 +246,10 @@ class FrozenCLIPEmbedderWithCustomWordsBase(torch.nn.Module):
 
             if hashes:
                 if self.hijack.extra_generation_params.get("TI hashes"):
-                    hashes.append(self.hijack.extra_generation_params.get("TI hashes"))
+                    for hash in hashes: 
+                        if self.hijack.extra_generation_params.get("TI hashes") == hash: break
+                    else:
+                        hashes.append(self.hijack.extra_generation_params.get("TI hashes"))
                 self.hijack.extra_generation_params["TI hashes"] = ", ".join(hashes)
 
         if any(x for x in texts if "(" in x or "[" in x) and opts.emphasis != "Original":
